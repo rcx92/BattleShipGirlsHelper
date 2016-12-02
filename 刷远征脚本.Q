@@ -26,6 +26,8 @@ SetupOCXFile=
 
 Function find_click_wait(img, delta_x, delta_y, wait_time)
 	FindPic 0, 0, 1920, 1080, img, 1.0, intX, intY
+	TracePrint img
+	TracePrint intX
 	If intX > 0 And intY > 0 Then 
 		find_click_wait = True
 		MoveTo intX + delta_x,intY + delta_y
@@ -66,6 +68,7 @@ Function check_bonus()
 	result = find_click_wait("E:\wg\get_bonus_button.bmp", 0, 0, 5000)
 	If result Then 
 		check_bonus = true
+		Delay 5000
 		LeftClick 1
 		Delay 5000
 	Else 
@@ -97,8 +100,8 @@ While true
 			Exit For
 		End If
 	Next
-	Call auto_far_attack("E:\wg\guanjianyanlian.bmp", 1051, 127, "E:\wg\1.bmp", "E:\wg\second_chapter.bmp")
-	Call auto_far_attack("E:\wg\haishanghuwei.bmp", 1051, 122, "E:\wg\2.bmp", "E:\wg\second_chapter.bmp")
-	Call auto_far_attack("E:\wg\jinbei.bmp", 1064, 129, "E:\wg\3.bmp", "E:\wg\first_chapter.bmp")
-	Call auto_far_attack("E:\wg\changjuli.bmp", 1034, 113, "E:\wg\4.bmp", "E:\wg\first_chapter.bmp")
+	Call auto_far_attack("E:\wg\bianduiyanxi.bmp", 1051, 127, "E:\wg\1.bmp", "E:\wg\second_chapter.bmp")
+	Call auto_far_attack("E:\wg\huhangrenwu.bmp", 1051, 122, "E:\wg\2.bmp", "E:\wg\second_chapter.bmp")
+	Call auto_far_attack("E:\wg\jinhaixunluo.bmp", 1064, 129, "E:\wg\3.bmp", "E:\wg\first_chapter.bmp")
+	Call auto_far_attack("E:\wg\zuozhanyanlian.bmp", 1034, 113, "E:\wg\4.bmp", "E:\wg\first_chapter.bmp")
 Wend

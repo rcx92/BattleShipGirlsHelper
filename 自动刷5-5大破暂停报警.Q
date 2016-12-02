@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=697167ae-c5de-4e52-839d-a8560db5b871
 Description=自动刷5-5大破暂停报警
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0

@@ -8,9 +8,9 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=bc80f24d-7bd6-4aec-a3ea-6f4d323b7e37
-Description=刷6-1
-Enable=1
+MacroID=c42c3030-764c-4c50-87f3-b78ba6191dcb
+Description=2-1刷胖次
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -26,6 +26,7 @@ SetupOCXFile=
 
 
 failed = False
+last_success = true
 
 Function find_click_wait(img, delta_x, delta_y, wait_time)
 	FindPic 0, 0, 1920, 1080, img, 1.0, intX, intY
@@ -84,15 +85,14 @@ Function reenter_game()
 	Next
 End function
 
-
 Function auto_train()
 
 	Call find_click_wait("E:\wg\harbor.bmp", 0, 0, 3000)
 	Call find_click_wait("E:\wg\go.bmp", 0, 0, 3000)
 	Call find_click_wait("E:\wg\half-auto\go-war.bmp", 0, 0, 3000)
-	Do While find_click_wait("E:\wg\half-auto\right-arrow.bmp", 0, 0, 1000)
-		Call find_click_wait("E:\wg\half-auto\small-6th-chapter.bmp", 0, 0, 1000)
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\big-6th-chapter.bmp", 1.0, intX, intY
+	Do While find_click_wait("E:\wg\half-auto\left-arrow.bmp", 0, 0, 1000)
+		Call find_click_wait("E:\wg\half-auto\small-2nd-chapter.bmp", 0, 0, 1000)
+		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\big-2nd-chapter.bmp", 1.0, intX, intY
 		if intX > 0 Then 
 			Exit do
 		End If
@@ -101,19 +101,24 @@ Function auto_train()
 	
 	While find_click_wait("E:\wg\half-auto\left-arrow2.bmp", 0, 0, 1000)
 	Wend
-	failed = failed or not try_click("E:\wg\half-auto\61title.bmp", 0, 0, 0, 10, 1000) 
-	
-	failed = failed or not try_click("E:\wg\half-auto\quick-support.bmp", 0, 0, 0, 10, 1000)
-	failed = failed or not try_click("E:\wg\half-auto\all-support.bmp", 0, 0, 5000, 10, 1000) 
-	
-	
-	failed = failed or not try_click("E:\wg\half-auto\quick-fix.bmp", 0, 0, 0, 10, 1000)
-	failed = failed or not try_click("E:\wg\half-auto\all-fix.bmp", 0, 0, 5000, 10, 1000) 
-	
-	If find_click_wait("E:\wg\half-auto\cross.bmp", 0, 0, 3000) Then 
-		failed = true
+	failed = failed or not try_click("E:\wg\half-auto\21title.bmp", 0, 0, 0, 10, 1000) 
+	Dim start_success
+	If last_success Then
+		failed = failed or not try_click("E:\wg\half-auto\quick-support.bmp", 0, 0, 0, 10, 1000)
+		failed = failed or not try_click("E:\wg\half-auto\all-support.bmp", 0, 0, 5000, 10, 1000) 
+		
+		
+		failed = failed or not try_click("E:\wg\half-auto\quick-fix.bmp", 0, 0, 0, 10, 1000)
+		failed = failed or not try_click("E:\wg\half-auto\all-fix.bmp", 0, 0, 5000, 10, 1000) 
+		last_success = false
+		If find_click_wait("E:\wg\half-auto\cross.bmp", 0, 0, 3000) Then 
+			failed = true
+		End If
+		start_success = try_click("E:\wg\half-auto\start.bmp", 0, 0, 0, 10, 1000)
+	Else 
+		start_success = try_click("E:\wg\half-auto\start.bmp", 0, 0, 0, 10, 1000) 
 	End If
-	If not try_click("E:\wg\half-auto\start.bmp", 0, 0, 0, 10, 1000)  Then 
+	If not start_success  Then 
 		Call reenter_game()
 		Exit Function
 	End If
@@ -125,10 +130,7 @@ Function auto_train()
 		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\start-battle.bmp", 1.0, intX, intY
 		TracePrint intX
 		If intX > 0 Then 
-			FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\all-ss.bmp", 1.0, intX, intY
-			If intX < 0 Then 
-				FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\3ss2clt.bmp", 1.0, intX, intY
-			End If
+			FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\pangci.bmp", 1.0, intX, intY
 			If intX > 0 Then 
 				call find_click_wait("E:\wg\half-auto\start-battle.bmp", 0, 0, 0)
 			Else 
@@ -137,13 +139,13 @@ Function auto_train()
 			End If
 			Exit for
 		End If
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\danheng.bmp", 1.0, intX, intY
-		If intX > 0 Then //no enemy
-			Call reenter_game()
-			Exit Function			
+		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\fuzong.bmp", 1.0, intX, intY
+		If find_click_wait("E:\wg\half-auto\fuzong.bmp", 0, 0, 0) Then //no enemy
+			Exit For			
 		End If
 	Next
-	failed = failed or not try_click("E:\wg\half-auto\danheng.bmp", 0, 0, 0, 10, 1000) 
+	failed = failed or not try_click("E:\wg\half-auto\fuzong.bmp", 0, 0, 0, 10, 1000) 
+	last_success = true
 	continueX = -1
 	For 50
 		Delay 4000 
@@ -165,30 +167,11 @@ Function auto_train()
 	For 5
 		LeftClick 1
 		Delay 3000
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0.95, intX, intY
-		if intX > 0 Then 
-			Exit for
-		End If
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\return-to-harbor-simple.bmp", 0.95, intX, intY
+		FindPic 0, 0, 1920, 1080, "E:\wg\go.bmp", 0.95, intX, intY
 		if intX > 0 Then 
 			Exit for
 		End If
 	Next
-	If try_click("E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0, 0, 3000, 2, 2500) Then 
-		failed = true
-	Else 
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\dapo-sign.bmp", 1.0, intX, intY
-		If intX > 0 Then 
-			failed = true
-		End If
-		call find_click_wait("E:\wg\half-auto\return-to-harbor-simple.bmp", 0, 0, 3000) 
-	End If
-	
-	If failed Then 
-		//Call Plugin.Media.Play("E:\wg\half-auto\Kalimba.mp3")
-		//Call Lib.API.运行程序("C:\Program Files (x86)\Tencent\QQ\QQProtect\Bin\QQProtect.exe")
-		failed = false
-	End If
 End Function
 
 
