@@ -8,9 +8,9 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=ea4aedf3-f753-4628-b8d7-94b43a71ccd9
-Description=我的脚本2
-Enable=0
+MacroID=1fffedcd-d258-4b9a-a04e-2d6ad20fdca6
+Description=约翰
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -56,6 +56,34 @@ Function try_click(img, delta_x, delta_y, wait_time, try_times, start_delay)
 	Next
 End Function
 
+Function try_click_fuzong()
+	try_click_fuzong = false
+	If find_click_wait("E:\wg\e5\first-fuzong.bmp", 0, 0, 0) Then 
+		try_click_fuzong = true
+		Exit Function			
+	End If	
+	If find_click_wait("E:\wg\e5\fuzong2.bmp", 0, 0, 0) Then 
+		try_click_fuzong = true
+		Exit Function			
+	End If
+	If find_click_wait("E:\wg\e5\fuzong.bmp", 0, 0, 0) Then 
+		try_click_fuzong = true
+		Exit Function			
+	End If	
+End Function
+
+Function try_click_tixing()
+	try_click_tixing = false
+	If find_click_wait("E:\wg\e5\tixing.bmp", 0, 0, 0) Then 
+		try_click_tixing = true
+		Exit Function			
+	End If	
+	If find_click_wait("E:\wg\e5\tixing2.bmp", 0, 0, 0) Then 
+		try_click_tixing = true
+		Exit Function			
+	End If
+End Function
+
 
 Function reenter_game()
 	Call find_click_wait("E:\wg\half-auto\list-app.bmp", 0, 0, 1000)
@@ -81,21 +109,8 @@ End function
 
 Function auto_train()
 
-	Call find_click_wait("E:\wg\harbor.bmp", 0, 0, 3000)
-	Call find_click_wait("E:\wg\go.bmp", 0, 0, 3000)
-	Call find_click_wait("E:\wg\half-auto\go-war.bmp", 0, 0, 3000)
-	Do While find_click_wait("E:\wg\half-auto\right-arrow.bmp", 0, 0, 1000)
-		Call find_click_wait("E:\wg\half-auto\small-6th-chapter.bmp", 0, 0, 1000)
-		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\big-6th-chapter.bmp", 1.0, intX, intY
-		if intX > 0 Then 
-			Exit do
-		End If
-	loop
-	
-	
-	While find_click_wait("E:\wg\half-auto\left-arrow2.bmp", 0, 0, 1000)
-	Wend
-	failed = failed or not try_click("E:\wg\half-auto\61title.bmp", 0, 0, 0, 10, 1000) 
+	Call find_click_wait("E:\wg\e5\e5symbol.bmp", 0, 0, 3000)
+	Call find_click_wait("E:\wg\e5\ready.bmp", 0, 0, 3000)
 	
 	failed = failed or not try_click("E:\wg\half-auto\quick-support.bmp", 0, 0, 0, 10, 1000)
 	failed = failed or not try_click("E:\wg\half-auto\all-support.bmp", 0, 0, 5000, 10, 1000) 
@@ -107,14 +122,18 @@ Function auto_train()
 	If find_click_wait("E:\wg\half-auto\cross.bmp", 0, 0, 3000) Then 
 		failed = true
 	End If
-	If not try_click("E:\wg\half-auto\start.bmp", 0, 0, 0, 10, 1000)  Then 
-		Call reenter_game()
-		Exit Function
-	End If
+	Call try_click("E:\wg\half-auto\start.bmp", 0, 0, 0, 10, 1000)
 	Dim fuzong
-	fuzong = "E:\wg\half-auto\fuzong.bmp"
-	For 3
+	Dim times
+	Dim giveup
+	Dim fuzong2
+	giveup = "E:\wg\half-auto\giveup.bmp"
+	times = 0
+	For 4
+		times = times + 1
 		LeftClick 1
+		Dim fuzonged
+		fuzonged = false
 		For 30
 			Delay 1000
 			LeftClick 1
@@ -125,16 +144,46 @@ Function auto_train()
 				call find_click_wait("E:\wg\half-auto\start-battle.bmp", 0, 0, 0)
 				Exit for
 			End If
-			FindPic 0, 0, 1920, 1080, fuzong, 0.96, intX, intY
-			If intX > 0 Then //no enemy
-				Exit for			
+			If times = 4 Then 
+				If try_click_tixing() Then 
+					fuzonged = true
+					Exit for
+				End If
+				
+			Else
+				If try_click_fuzong() Then 
+					fuzonged = true
+					Exit for			
+				End If
 			End If
 		Next
-		failed = failed or not try_click(fuzong, 0, 0, 0, 10, 1000) 
-		continueX = -1
+	    If not fuzonged Then
+	    	For 10 
+	    		If times = 4 then
+	    			If try_click_tixing() Then 
+	    				Exit For
+	    			End If
+	    		else
+	    			If try_click_fuzong() Then 
+	    				Exit For
+	    			End If
+	    		end if	
+	    	Next
+	    End If  
+		continueX = - 1 
+		Dim i
+		i = 0
 		For 50
-			Delay 4000 
-			Call find_click_wait("E:\wg\half-auto\giveup.bmp", 0, 0, 3000)
+			Delay 4000
+			If times = 4 Then 
+				i = i + 1
+				If i < 5 Then 
+					LeftClick 1
+				End If
+				Call find_click_wait("E:\wg\half-auto\zhuiji.bmp", 0, 0, 3000)
+			else
+				Call find_click_wait(giveup, 0, 0, 3000)
+			End If
 			If find_click_wait("E:\wg\half-auto\click-to-continue.bmp", 0, 0, 0) Then 
 				continueX = intX
 				continueY = intY
@@ -152,10 +201,12 @@ Function auto_train()
 		LeftClick 1
 		If try_click("E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0, 0, 3000, 2, 2500) Then 
 			failed = true
+			Exit For
 		Else 
 			FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\dapo-sign.bmp", 1.0, intX, intY
 			If intX > 0 Then 
-				call try_click("E:\wg\half-auto\return-to-harbor-simple.bmp", 0, 0, 3000, 3, 1000) 
+				Call try_click("E:\wg\half-auto\return-to-harbor-simple.bmp", 0, 0, 3000, 3, 1000)
+				Exit for
 				failed = true
 			Else 
 				
@@ -163,7 +214,14 @@ Function auto_train()
 			
 			End If
 		End If
-		fuzong = "E:\wg\half-auto\fuzong2.bmp"
+		If times = 1 then
+			For 10
+				Delay 1000
+				If find_click_wait("E:\wg\half-auto\confirm.bmp", 0, 0, 1000) Then 
+					Exit For
+				End If
+			Next
+		End If
 	Next
 	If failed Then 
 		//Call Plugin.Media.Play("E:\wg\half-auto\Kalimba.mp3")

@@ -100,8 +100,8 @@ While true
 			Exit For
 		End If
 	Next
-	Call auto_far_attack("E:\wg\bianduiyanxi.bmp", 1051, 127, "E:\wg\1.bmp", "E:\wg\second_chapter.bmp")
+	Call auto_far_attack("E:\wg\bianduiyanxi.bmp", 1051, 127, "E:\wg\4.bmp", "E:\wg\second_chapter.bmp")
 	Call auto_far_attack("E:\wg\huhangrenwu.bmp", 1051, 122, "E:\wg\2.bmp", "E:\wg\second_chapter.bmp")
 	Call auto_far_attack("E:\wg\jinhaixunluo.bmp", 1064, 129, "E:\wg\3.bmp", "E:\wg\first_chapter.bmp")
-	Call auto_far_attack("E:\wg\zuozhanyanlian.bmp", 1034, 113, "E:\wg\4.bmp", "E:\wg\first_chapter.bmp")
+	Call auto_far_attack("E:\wg\zuozhanyanlian.bmp", 1034, 113, "E:\wg\1.bmp", "E:\wg\first_chapter.bmp")
 Wend
