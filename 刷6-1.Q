@@ -163,6 +163,7 @@ Function auto_train()
 		Delay 5000
 	End If
 	For 5
+		MoveR -100, -100
 		LeftClick 1
 		Delay 3000
 		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0.95, intX, intY
