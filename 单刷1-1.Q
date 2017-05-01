@@ -141,17 +141,23 @@ Function auto_train()
 		LeftClick 1
 	End If
 	If not try_click("E:\wg\half-auto\continue.bmp", 0, 0, 5000, 10, 1000)  Then 
-		If continueX >= 0 Then
-			MoveTo continueX + 100, continueY
-			LeftClick 1
-			Delay 5000
-		Else 
-			Call reenter_game()
-			Exit Function
-		
-		End If
+		MoveTo continueX + 100, continueY
+		LeftClick 1
+		Delay 5000
 	End If
-	LeftClick 1
+	For 5
+		MoveR -100, -100
+		LeftClick 1
+		Delay 3000
+		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0.95, intX, intY
+		if intX > 0 Then 
+			Exit for
+		End If
+		FindPic 0, 0, 1920, 1080, "E:\wg\half-auto\return-to-harbor-simple.bmp", 0.95, intX, intY
+		if intX > 0 Then 
+			Exit for
+		End If
+	Next
 	If try_click("E:\wg\half-auto\qijiandapo-return-to-harbor.bmp", 0, 0, 3000, 2, 2500) Then 
 		failed = true
 	Else 
@@ -161,6 +167,7 @@ Function auto_train()
 		End If
 		call find_click_wait("E:\wg\half-auto\return-to-harbor-simple.bmp", 0, 0, 3000) 
 	End If
+	
 	If failed Then 
 		//Call Plugin.Media.Play("E:\wg\half-auto\Kalimba.mp3")
 		//Call Lib.API.‘À––≥Ã–Ú("C:\Program Files (x86)\Tencent\QQ\QQProtect\Bin\QQProtect.exe")
